@@ -11,7 +11,6 @@ const mainCollectionImages = [
 
 const secondaryImages = [
   "/Women/w_2.png",
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=920&auto=format&fit=crop",
 ];
 
 const floatingImages = [
@@ -96,7 +95,7 @@ const DesignerHeroCollection = () => {
                 </span>
               </div>
 
-              <h1 className="font- text-5xl md:text-7xl leading-[1.1] text-stone-900 mb-6">
+              <h1 className="font- text-4xl sm:text-5xl md:text-7xl leading-[1.1] text-stone-900 mb-6">
                 Style <br />
                 <span className=" font-light">Beyond</span> <br />
                 Borders.
@@ -129,29 +128,48 @@ const DesignerHeroCollection = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8, duration: 1 }}
-              className="mt-16 pt-8 border-t border-stone-200 flex items-center gap-8"
+              className="mt-12 sm:mt-16 pt-8 border-t border-stone-200 flex items-center gap-6 sm:gap-8"
             >
               <div>
-                <p className="text-3xl font- text-stone-900">10k+</p>
-                <p className="text-xs text-stone-500 uppercase tracking-wider mt-1">Happy Clients</p>
+                <p className="text-2xl sm:text-3xl font- text-stone-900">10k+</p>
+                <p className="text-[10px] sm:text-xs text-stone-500 uppercase tracking-wider mt-1">Happy Clients</p>
               </div>
-              <div className="w-px h-10 bg-stone-200" />
+              <div className="w-px h-8 sm:h-10 bg-stone-200" />
               <div>
-                <p className="text-3xl font- text-stone-900">Premium</p>
-                <p className="text-xs text-stone-500 uppercase tracking-wider mt-1">Quality Materials</p>
+                <p className="text-2xl sm:text-3xl font- text-stone-900">Premium</p>
+                <p className="text-[10px] sm:text-xs text-stone-500 uppercase tracking-wider mt-1">Quality Materials</p>
               </div>
             </motion.div>
           </div>
 
-          {/* RIGHT VISUALS - Bento Style Layout */}
-          <div className="lg:col-span-6 relative mt-12 lg:mt-0 flex justify-center lg:justify-end min-h-[520px] sm:min-h-[620px]">
+          {/* RIGHT VISUALS */}
+          <div className="lg:col-span-6 relative mt-12 sm:mt-12 lg:mt-0 flex justify-center lg:justify-end sm:min-h-[620px]">
 
+            {/* --- MOBILE ONLY: Single Large Slideshow --- */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="sm:hidden w-full h-[460px] rounded-[2rem] overflow-hidden shadow-2xl z-20 relative ring-4 ring-white"
+            >
+              <ImageSlideshow
+                images={[...mainCollectionImages, ...floatingImages, ...secondaryImages]}
+                intervalTime={3500}
+                className="w-full h-full bg-stone-200"
+              />
+              <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent">
+                <p className="text-white font-medium tracking-wide text-xl">Spring Essentials</p>
+                <p className="text-stone-300 text-sm mt-1">Explore the fits</p>
+              </div>
+            </motion.div>
+
+            {/* --- DESKTOP ONLY: Bento Style Layout --- */}
             {/* Main Image */}
             <motion.div
               initial={{ clipPath: "inset(100% 0 0 0)" }}
               animate={{ clipPath: "inset(0 0 0 0)" }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute top-[10%] right-[8%] sm:right-[18%] lg:right-[12%] w-[260px] sm:w-[330px] h-[360px] sm:h-[470px] rounded-2xl overflow-hidden shadow-2xl z-20"
+              className="hidden sm:block absolute top-[10%] right-[18%] lg:right-[12%] w-[330px] h-[470px] rounded-2xl overflow-hidden shadow-2xl z-20"
             >
               <ImageSlideshow
                 images={mainCollectionImages}
@@ -159,7 +177,7 @@ const DesignerHeroCollection = () => {
                 className="w-full h-full bg-stone-200"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-stone-900/80 to-transparent">
-                <p className="text-white font-medium tracking-wide">Spring Essentials</p>
+                <p className="text-white font-medium tracking-wide text-base">Spring Essentials</p>
                 <p className="text-stone-300 text-sm mt-1">Explore the fits</p>
               </div>
             </motion.div>
@@ -169,7 +187,7 @@ const DesignerHeroCollection = () => {
               initial={{ opacity: 0, x: -20, y: 10 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-              className="absolute top-[2%] sm:top-[6%] left-[12%] sm:left-[18%] w-[140px] sm:w-[170px] h-[180px] sm:h-[210px] rounded-2xl overflow-hidden shadow-lg z-30 ring-4 ring-white"
+              className="hidden sm:block absolute top-[6%] left-[18%] w-[170px] h-[210px] rounded-2xl overflow-hidden shadow-lg z-30 ring-4 ring-white"
             >
               <ImageSlideshow
                 images={floatingImages}
@@ -183,7 +201,7 @@ const DesignerHeroCollection = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8, ease: "easeOut" }}
-              className="absolute bottom-[-2%] right-[-18%] sm:right-[-12%] lg:right-[-6%] w-[160px] sm:w-[210px] h-[200px] sm:h-[250px] rounded-2xl overflow-hidden shadow-xl z-30 ring-4 ring-white"
+              className="hidden sm:block absolute bottom-[-2%] right-[-12%] lg:right-[-6%] w-[210px] h-[250px] rounded-2xl overflow-hidden shadow-xl z-30 ring-4 ring-white"
             >
               <ImageSlideshow
                 images={secondaryImages}
@@ -196,9 +214,9 @@ const DesignerHeroCollection = () => {
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="absolute top-[18%] right-[0%] sm:right-[6%] w-24 h-24 sm:w-28 sm:h-28 rounded-full border border-stone-300 border-dashed z-10 flex items-center justify-center opacity-40"
+              className="hidden sm:flex absolute top-[18%] right-[6%] w-28 h-28 rounded-full border border-stone-300 border-dashed z-10 items-center justify-center opacity-40"
             >
-              <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-full border border-stone-200 flex items-center justify-center">
+              <div className="w-20 h-20 rounded-full border border-stone-200 flex items-center justify-center">
                 <div className="w-2 h-2 rounded-full bg-red-500" />
               </div>
             </motion.div>

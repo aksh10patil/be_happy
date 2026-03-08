@@ -223,17 +223,17 @@ const AboutStrip = () => {
 
 const Footer = () => {
   return (
-    <footer className="bg-stone-900 text-stone-300 py-16">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+    <footer className="bg-stone-900 text-stone-300 py-12 md:py-16">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12 text-center md:text-left">
 
         {/* Brand */}
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <h3 className="font- text-3xl text-white mb-6">Be <span className="text-red-500">Happy</span></h3>
-          <p className="mb-6 font-light leading-relaxed">
-            More than just clothing. It's an attitude. <br />
+          <p className="mb-6 font-light leading-relaxed max-w-sm md:max-w-none">
+            More than just clothing. It's an attitude. <br className="hidden md:block" />
             Find your smile in our latest collection.
           </p>
-          <div className="flex gap-4">
+          <div className="flex justify-center md:justify-start gap-4">
             <a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full border border-stone-700 flex items-center justify-center hover:bg-red-600 hover:border-red-600 hover:text-white transition-all">
               <Instagram size={18} />
             </a>
@@ -244,9 +244,9 @@ const Footer = () => {
         </div>
 
         {/* Links */}
-        <div>
+        <div className="flex flex-col items-center md:items-start mt-2 md:mt-0">
           <h4 className="text-white uppercase tracking-widest text-sm mb-6">Collections</h4>
-          <ul className="space-y-3">
+          <ul className="space-y-3 w-full">
             <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Women's New Arrivals</a></li>
             <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Men's Casual</a></li>
             <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Accessories</a></li>
@@ -255,26 +255,26 @@ const Footer = () => {
         </div>
 
         {/* Contact (From User Data) */}
-        <div>
+        <div className="flex flex-col items-center md:items-start mt-2 md:mt-0">
           <h4 className="text-white uppercase tracking-widest text-sm mb-6">Visit Us</h4>
-          <ul className="space-y-4">
-            <li className="flex items-start gap-3">
-              <MapPin size={20} className="text-red-500 shrink-0" />
-              <span>Via Emmaus 10,<br />Losone, Switzerland</span>
+          <ul className="space-y-4 w-full">
+            <li className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-3">
+              <MapPin size={20} className="text-red-500 shrink-0 md:mt-1" />
+              <span>Via Emmaus 10,<br className="hidden md:block" />Losone, Switzerland</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Phone size={20} className="text-red-500 shrink-0" />
+            <li className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-3">
+              <Phone size={20} className="text-red-500 shrink-0 md:mt-1" />
               <span>+41 76 477 26 28</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Mail size={20} className="text-red-500 shrink-0" />
+            <li className="flex flex-col md:flex-row items-center md:items-start gap-2 md:gap-3">
+              <Mail size={20} className="text-red-500 shrink-0 md:mt-1" />
               <span className="break-all">be.happy.sagl@gmail.com</span>
             </li>
           </ul>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-12 mt-12 border-t border-stone-800 text-center text-sm">
+      <div className="max-w-7xl mx-auto px-6 pt-8 md:pt-12 mt-10 md:mt-12 border-t border-stone-800 text-center text-sm">
         &copy; 2026 Be Happy Sagl. All rights reserved.
       </div>
     </footer>
