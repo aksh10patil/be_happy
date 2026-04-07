@@ -1,6 +1,9 @@
+'use client';
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 
 // --- DATA: Collection Images ---
 const mainCollectionImages = [
@@ -47,7 +50,7 @@ const ImageSlideshow = ({ images, intervalTime = 4000, className = "" }: { image
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <AnimatePresence mode="wait">
+      <AnimatePresence initial={false} mode="wait">
         <motion.img
           key={index}
           src={images[index]}
@@ -56,6 +59,8 @@ const ImageSlideshow = ({ images, intervalTime = 4000, className = "" }: { image
           animate={{ opacity: 1, scale: 1, transition: { duration: 0.8, ease: "easeOut" } }}
           exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.8, ease: "easeIn" } }}
           className="absolute inset-0 w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
         />
       </AnimatePresence>
     </div>
@@ -69,10 +74,10 @@ const DesignerHeroCollection = () => {
     <section className="relative min-h-[100svh] bg-[#faf9f6] flex items-center pt-32 pb-16 lg:pt-40 lg:pb-24 overflow-hidden">
 
       {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-red-100/50 rounded-full blur-[120px] mix-blend-multiply opacity-60 pointer-events-none" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-orange-50/60 rounded-full blur-[150px] mix-blend-multiply opacity-60 pointer-events-none" />
+      <div className="pointer-events-none absolute top-0 left-1/4 hidden h-[500px] w-[500px] rounded-full bg-red-100/50 opacity-60 blur-[120px] mix-blend-multiply sm:block" />
+      <div className="pointer-events-none absolute bottom-0 right-1/4 hidden h-[600px] w-[600px] rounded-full bg-orange-50/60 opacity-60 blur-[150px] mix-blend-multiply sm:block" />
 
-      <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none overflow-hidden z-0">
+      <div className="pointer-events-none absolute inset-0 hidden items-center justify-center overflow-hidden opacity-[0.03] select-none sm:flex z-0">
         <h1 className="text-[25vw] font- font-black text-stone-900 whitespace-nowrap leading-none tracking-tighter mix-blend-overlay">
           BE HAPPY
         </h1>
@@ -146,22 +151,20 @@ const DesignerHeroCollection = () => {
           <div className="lg:col-span-6 relative mt-12 sm:mt-12 lg:mt-0 flex justify-center lg:justify-end sm:min-h-[620px]">
 
             {/* --- MOBILE ONLY: Single Large Slideshow --- */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-              className="sm:hidden w-full h-[460px] rounded-[2rem] overflow-hidden shadow-2xl z-20 relative ring-4 ring-white"
-            >
-              <ImageSlideshow
-                images={[...mainCollectionImages, ...floatingImages, ...secondaryImages]}
-                intervalTime={3500}
-                className="w-full h-full bg-stone-200"
+            <div className="relative z-20 h-[420px] w-full overflow-hidden rounded-[2rem] bg-stone-200 shadow-2xl ring-4 ring-white sm:hidden">
+              <Image
+                src={mainCollectionImages[0]}
+                alt="Be Happy spring collection"
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-stone-900 via-stone-900/60 to-transparent">
                 <p className="text-white font-medium tracking-wide text-xl">Spring Essentials</p>
                 <p className="text-stone-300 text-sm mt-1">Explore the fits</p>
               </div>
-            </motion.div>
+            </div>
 
             {/* --- DESKTOP ONLY: Bento Style Layout --- */}
             {/* Main Image */}

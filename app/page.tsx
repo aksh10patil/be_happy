@@ -1,10 +1,9 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Instagram, Facebook, ShoppingBag, ArrowRight, Menu, X, MapPin, Phone, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Instagram, Facebook, Menu, X, MapPin, Phone, Mail, Scissors, Tag, Shirt, Star } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Scissors, Tag, Shirt, Star } from 'lucide-react';
 import Categories from '@/components/Category';
 import DesignerHero from '@/components/Hero';
 import AnnouncementBanner from '@/components/Banner';
@@ -46,9 +45,29 @@ const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    let frameId = 0;
+
+    const updateScrolled = () => {
+      const nextScrolled = window.scrollY > 50;
+      setScrolled((prev) => (prev === nextScrolled ? prev : nextScrolled));
+      frameId = 0;
+    };
+
+    const handleScroll = () => {
+      if (frameId === 0) {
+        frameId = window.requestAnimationFrame(updateScrolled);
+      }
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId);
+      }
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   return (
@@ -110,72 +129,6 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
-  return (
-    <section className="relative min-h-screen bg-stone-50 flex items-center pt-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
-        {/* Text Content */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="z-10"
-        >
-          <span className="text-red-600 font-medium tracking-widest text-sm uppercase mb-4 block">New Collection 2026</span>
-          <h1 className="font- text-5xl md:text-7xl leading-[1.1] text-stone-900 mb-6">
-            Hi <br />
-            <span className=" font-light">State of</span> <br />
-            Mind.
-          </h1>
-          <p className="text-stone-600 mb-8 max-w-md leading-relaxed">
-            We're pleased to introduce our clothing store, "Be Happy," located in Losone. We offer a wide selection of women's clothing at affordable prices, to help everyone feel beautiful and comfortable every day.
-
-            In our store, you'll find a wide range of casual/sportswear to suit everyone's tastes. We're always looking for the finest fabrics and most innovative designs to ensure our customers have an exceptional shopping experience.
-          </p>
-          <div className="flex gap-4">
-            <Button primary={true}>Shop WOMAN</Button>
-            <Button primary={false}>Shop MAN</Button>
-          </div>
-        </motion.div>
-
-        {/* Collage Image Composition - Inspired by your screenshot */}
-        <div className="relative h-[600px] w-full hidden md:block">
-          {/* Background Shape */}
-          <div className="absolute top-10 right-0 w-3/4 h-3/4 bg-red-100 rounded-tl-[100px] -z-0"></div>
-
-          {/* Main Image */}
-          <motion.img
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop"
-            alt="Woman Fashion"
-            className="absolute top-0 right-10 w-72 h-[450px] object-cover shadow-xl z-10"
-          />
-
-          {/* Secondary Image (Overlapping) */}
-          <motion.img
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            src="https://images.unsplash.com/photo-1506634572416-48cdfe530110?q=80&w=1000&auto=format&fit=crop"
-            alt="Man Fashion"
-            className="absolute bottom-10 left-10 w-64 h-80 object-cover shadow-2xl border-4 border-white z-20"
-          />
-
-          {/* Decorative Elements */}
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="absolute bottom-40 right-40 w-24 h-24 border-dashed border-2 border-red-400 rounded-full z-0 opacity-50"
-          />
-        </div>
-      </div>
-    </section>
-  );
-};
-
 const AboutStrip = () => {
   const content = [
     { text: "New Season", icon: <Star size={14} /> },
@@ -189,31 +142,36 @@ const AboutStrip = () => {
   return (
     <div className="bg-red-600 py-3 overflow-hidden border-y-2 border-dashed border-red-800/30 relative">
       {/* Texture overlay to make it look like fabric (optional) */}
-      <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/fabric-of-squares.png')] pointer-events-none"></div>
+      <div className="absolute inset-0 hidden opacity-10 pointer-events-none md:block bg-[url('https://www.transparenttextures.com/patterns/fabric-of-squares.png')]"></div>
+
+      <div className="flex gap-3 overflow-x-auto px-4 md:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {content.map((item, index) => (
+          <div key={index} className="flex shrink-0 items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-white/90">
+            <span className="text-red-200">{item.icon}</span>
+            <span className="font-sans text-xs font-bold tracking-[0.2em] uppercase">
+              {item.text}
+            </span>
+          </div>
+        ))}
+      </div>
 
       <motion.div
-        className="flex gap-12 whitespace-nowrap"
+        className="hidden gap-12 whitespace-nowrap md:flex"
         animate={{ x: "-50%" }}
         transition={{
           repeat: Infinity,
           duration: 20,
           ease: "linear"
         }}
-        style={{ width: "max-content" }} // Ensures the width fits the content
+        style={{ width: "max-content" }}
       >
-        {/* We map the content twice to create a seamless infinite loop */}
         {[...content, ...content, ...content].map((item, index) => (
           <div key={index} className="flex items-center gap-3 text-white/90">
-            {/* The Icon */}
             <span className="text-red-200">{item.icon}</span>
-
-            {/* The Text */}
-            <span className="font-sans text-xs md:text-sm font-bold tracking-[0.2em] uppercase">
+            <span className="font-sans text-sm font-bold tracking-[0.2em] uppercase">
               {item.text}
             </span>
-
-            {/* The Separator */}
-            <span className="w-1 h-1 bg-red-800 rounded-full ml-8"></span>
+            <span className="ml-8 h-1 w-1 rounded-full bg-red-800"></span>
           </div>
         ))}
       </motion.div>
@@ -230,7 +188,7 @@ const Footer = () => {
         <div className="flex flex-col items-center md:items-start">
           <h3 className="font- text-3xl text-white mb-6">Be <span className="text-red-500">Happy</span></h3>
           <p className="mb-6 font-light leading-relaxed max-w-sm md:max-w-none">
-            More than just clothing. It's an attitude. <br className="hidden md:block" />
+            More than just clothing. It&apos;s an attitude. <br className="hidden md:block" />
             Find your smile in our latest collection.
           </p>
           <div className="flex justify-center md:justify-start gap-4">
@@ -247,8 +205,8 @@ const Footer = () => {
         <div className="flex flex-col items-center md:items-start mt-2 md:mt-0">
           <h4 className="text-white uppercase tracking-widest text-sm mb-6">Collections</h4>
           <ul className="space-y-3 w-full">
-            <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Women's New Arrivals</a></li>
-            <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Men's Casual</a></li>
+            <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Women&apos;s New Arrivals</a></li>
+            <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Men&apos;s Casual</a></li>
             <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Accessories</a></li>
             <li><a href="https://www.facebook.com/p/Be-Happy-100068963659334/" target="_blank" rel="noopener noreferrer" className="hover:text-red-500 transition-colors">Lookbook 2026</a></li>
           </ul>

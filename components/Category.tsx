@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowUpRight, Star } from 'lucide-react';
+import Image from 'next/image';
 
 
 interface SectionProps {
@@ -27,8 +30,8 @@ interface CategoryCardProps {
 const CategoryCard = ({ title, image, links, badge }: CategoryCardProps) => {
   return (
     <motion.div
-      className="group relative flex-1 h-[600px] overflow-hidden cursor-pointer"
-      initial="rest"
+      className="group relative h-[440px] flex-1 overflow-hidden md:h-[600px] md:cursor-pointer"
+      initial={false}
       whileHover="hover"
       animate="rest"
     >
@@ -41,10 +44,12 @@ const CategoryCard = ({ title, image, links, badge }: CategoryCardProps) => {
         }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <img
+        <Image
           src={image}
           alt={title}
-          className="w-full h-full object-cover"
+          fill
+          sizes="(max-width: 767px) 100vw, 50vw"
+          className="object-cover"
         />
         {/* Dark Gradient Overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900/80 via-stone-900/20 to-transparent" />
@@ -52,16 +57,16 @@ const CategoryCard = ({ title, image, links, badge }: CategoryCardProps) => {
 
       {/* 2. Floating Badge (e.g. "New Season") */}
       {badge && (
-        <div className="absolute top-6 right-6 z-20 bg-red-600 text-white w-20 h-20 rounded-full flex flex-col items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
+        <div className="absolute top-4 right-4 z-20 flex h-16 w-16 flex-col items-center justify-center rounded-full bg-red-600 text-white shadow-lg transition-transform duration-500 md:top-6 md:right-6 md:h-20 md:w-20 md:rotate-12 md:group-hover:rotate-0">
           <Star size={14} fill="white" className="mb-1" />
-          <span className="text-[8px] font-bold uppercase tracking-widest text-center leading-tight">
+          <span className="text-center text-[7px] font-bold leading-tight tracking-widest uppercase md:text-[8px]">
             {badge}
           </span>
         </div>
       )}
 
       {/* 3. Main Content Wrapper */}
-      <div className="absolute inset-0 z-10 flex flex-col justify-end p-8 md:p-12">
+      <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 md:p-12">
 
         {/* The Title - Moves up on hover */}
         <motion.div
@@ -74,14 +79,38 @@ const CategoryCard = ({ title, image, links, badge }: CategoryCardProps) => {
           <span className="text-red-500 font-bold tracking-widest text-xs uppercase mb-2 block">
             Collection 2026
           </span>
-          <h2 className="text-5xl md:text-7xl font- text-white mb-2">
+          <h2 className="mb-2 text-4xl text-white sm:text-5xl md:text-7xl font-">
             {title}
           </h2>
         </motion.div>
 
+        <div className="mt-5 flex flex-wrap gap-2 border-t border-white/20 pt-4 md:hidden">
+          {links.map((link, i) => (
+            <a
+              key={i}
+              href="https://www.facebook.com/p/Be-Happy-100068963659334/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full border border-white/20 bg-white/10 px-3 py-2 text-sm font-medium text-white/90 backdrop-blur-sm transition-colors hover:bg-white/20"
+            >
+              {link}
+            </a>
+          ))}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open('https://www.facebook.com/p/Be-Happy-100068963659334/', '_blank');
+            }}
+            className="mt-2 flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-bold tracking-wider text-stone-900 uppercase transition-colors hover:bg-red-600 hover:text-white"
+          >
+            Shop All {title} <ArrowRight size={16} />
+          </button>
+        </div>
+
         {/* 4. The Hidden "Quick Links" Menu */}
         <motion.div
-          className="overflow-hidden"
+          className="hidden overflow-hidden md:block"
           variants={{
             rest: { height: 0, opacity: 0 },
             hover: { height: "auto", opacity: 1 }
@@ -145,7 +174,7 @@ const Categories = () => {
       </div>
 
       {/* The Cards Layout */}
-      <div className="flex flex-col md:flex-row gap-4 h-auto md:h-[700px]">
+      <div className="flex h-auto flex-col gap-4 md:h-[700px] md:flex-row">
 
         {/* Women - Larger / More details */}
         <div className="flex-[1.4]">
